@@ -14,5 +14,9 @@ This project implements an ETL pipeline in Python to process ecommerce datasets.
 - Python
 - Pandas
 - Pathlib
-
 ## Project Structure
+
+## Example
+Load all CSV datasets automatically into a dictionary of DataFrames.
+## Author
+Gonzalo Aliano
