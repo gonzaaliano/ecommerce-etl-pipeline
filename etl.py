@@ -13,20 +13,6 @@ csv_files = list(DATA_PATH.glob("*.csv"))
 if not csv_files:
     raise ValueError('No hay archivos de tipo .csv en la carpeta data')
 
-def optimize_dataframe(df):
-
-    for col in df.select_dtypes(include=["int"]):
-        df[col] = pd.to_numeric(df[col], downcast="integer")
-
-    for col in df.select_dtypes(include=["float"]):
-        df[col] = pd.to_numeric(df[col], downcast="float")
-
-    for col in df.select_dtypes(include=["object"]):
-        if df[col].nunique() / len(df[col]) < 0.5:
-            df[col] = df[col].astype("category")
-
-    return df
-
 #En lugar de leer cada archivo individualmente, creamos un diccionario y leemos todos los archivos.
 #glob.csv lee todos los archivos .csv contenidos en la carpeta data
 for file in csv_files:
