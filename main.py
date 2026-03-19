@@ -1,23 +1,27 @@
 from pathlib import Path
 from etl.extract import load_datasets
 from etl.transform import optimize_dataframe
+from etl.analyze import analyze_all
 
-#Define la carpeta en donde se encuentran los archivos
-DATA_PATH = Path('data')
+DATA_PATH = Path("data")
 
 def main():
+
     if not DATA_PATH.exists():
         raise FileNotFoundError("La carpeta data no existe")
 
+    # 1. Extract
     datasets = load_datasets(DATA_PATH)
 
-    for name, df in datasets.items():
-        df = optimize_dataframe(df)
-        print(f"{name}: {df.shape}")
-        print(f"\n📈 RESUMEN:")
-        print(f'INFO')
-        print(f'{df.info()}')
-        print(f'HEAD') 
-        print(f'{df.head()}')
-        print(f'DESCRIBE')
-        print(f'{df.describe()}')
+    # 2. Transform
+    datasets = {
+        name: optimize_dataframe(df)
+        for name, df in datasets.items()
+    }
+
+    # 3. Analyze
+    analyze_all(datasets)
+
+
+if __name__ == "__main__":
+    main()
