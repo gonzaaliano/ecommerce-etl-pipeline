@@ -1,12 +1,12 @@
 from pathlib import Path
 from etl.extract import load_datasets
 from etl.transform import optimize_dataframe
-from etl.analyze import analyze_all
+from etl.analyze import analyze_dataframe
+from etl.load import load_all
 
 DATA_PATH = Path("data")
 
 def main():
-
     if not DATA_PATH.exists():
         raise FileNotFoundError("La carpeta data no existe")
 
@@ -20,8 +20,7 @@ def main():
     }
 
     # 3. Analyze
-    analyze_all(datasets)
+    for df in datasets.values():
+        analyze_dataframe(df)
 
-
-if __name__ == "__main__":
-    main()
+    load_all(datasets, format="parquet")
