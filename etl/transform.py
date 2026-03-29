@@ -78,3 +78,43 @@ def handle_duplicates(df: pd.DataFrame, threshold: float = 0.05):
         print(f"⚠ Too many duplicates ({ratio:.2%}), not removed")
 
     return df
+
+def transform_customers(df: pd.DataFrame) -> pd.DataFrame:
+    
+    string_cols = ["first_name", "last_name"]
+    for col in string_cols:
+        df[col] = df[col].astype("string").str.strip()
+
+    date_cols = ["birth_date", "registration_date", "last_login"]
+    for col in date_cols:
+        df[col] = pd.to_datetime(df[col], errors="coerce")
+
+    bool_cols = ["accepts_marketing"]
+    for col in bool_cols:
+        df[col] = df[col].astype("bool")
+
+    return df
+
+def transform_inventory(df: pd.DataFrame) -> pd.DataFrame:
+    df["last_restock_date"] = pd.to_datetime(df["last_restock_date"], errors="coerce")
+    return df
+
+def transform_orders(df: pd.DataFrame) -> pd.DataFrame:
+    df["order_date"] = pd.to_datetime(df["order_date"], errors="coerce")
+    df["promotion_id"] = df["promotion_id"].astype("Int8")
+    df["notes"] = df["notes"].astype("string").str.strip()
+    return df
+
+def transform_products(df: pd.DataFrame) -> pd.DataFrame:
+    df["created_at"] = pd.to_datetime(df["created_at"], errors="coerce")
+    df["updated_at"] = pd.to_datetime(df["updated_at"], errors="coerce")
+    return df
+
+def transform_promotions(df: pd.DataFrame) -> pd.DataFrame:
+    df["start_date"] = pd.to_datetime(df["start_date"], errors="coerce")
+    df["end_date"] = pd.to_datetime(df["end_date"], errors="coerce")
+    return df
+
+def transform_reviews(df: pd.DataFrame) -> pd.DataFrame:
+    df["created_at"] = pd.to_datetime(df["created_at"], errors="coerce")
+    return df
