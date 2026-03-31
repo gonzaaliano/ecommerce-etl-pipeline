@@ -79,6 +79,10 @@ def handle_duplicates(df: pd.DataFrame, threshold: float = 0.05):
 
     return df
 
+def transform_categories(df: pd.DataFrame) -> pd.DataFrame:
+    df["parent_category_id"] = df["parent_category_id"].astype("Int32")
+    return df
+
 def transform_customers(df: pd.DataFrame) -> pd.DataFrame:
     
     string_cols = ["first_name", "last_name"]
